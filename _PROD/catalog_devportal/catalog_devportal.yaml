@@ -1,0 +1,26 @@
+portals:
+  - ref: sncf-devportal
+    _external:
+      selector:
+        matchFields:
+          name: "SNCF - Prod"
+apis:
+  - ref: mon-api
+    name: "Mon API"
+    attributes:
+      status:
+        - production
+      type: ["REST"]
+    description: "API managing many things in the company"
+    versions:
+      - ref: v1
+        spec: !file ./openapi.yaml
+        version: 1.0.0
+    documents:
+      - ref: mon-api-doc
+        title: "v1 doc"
+        content: !file ./mon-api-description.md
+api_publications:
+  - ref: mon-api-pub
+    api: mon-api
+    portal_id: !ref sncf-devportal#id
