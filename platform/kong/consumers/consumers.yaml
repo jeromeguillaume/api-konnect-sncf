@@ -1,0 +1,16 @@
+consumers:
+- username: gold-1
+  keyauth_credentials:
+  - key: gold
+  groups:
+  - name: gold
+- username: silver-1
+  keyauth_credentials:
+  - key: silver
+  groups:
+  - name: silver
+- username: bronze-1
+  keyauth_credentials:
+  - key: bronze
+  groups:
+  - name: bronze

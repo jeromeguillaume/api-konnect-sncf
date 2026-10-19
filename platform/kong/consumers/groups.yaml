@@ -1,0 +1,4 @@
+consumer_groups:
+- name: gold
+- name: silver
+- name: bronze
