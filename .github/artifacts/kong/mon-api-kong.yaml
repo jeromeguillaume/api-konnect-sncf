@@ -1,0 +1,79 @@
+_format_version: "3.0"
+services:
+- host: httpbin.konghq.com
+  id: 64968ae0-88be-5ac8-a787-cad7fd5cbca8
+  name: mon-api
+  path: /
+  plugins: []
+  port: 443
+  protocol: https
+  routes:
+  - id: 8792dafa-87c1-56ee-a406-56ba0f01b56c
+    methods:
+    - GET
+    name: mon-api_anything-get
+    paths:
+    - ~/anything$
+    plugins: []
+    regex_priority: 200
+    strip_path: false
+    tags:
+    - mon-api
+  - id: 3f5b2ae9-a0ec-5a74-a568-e080616f8a17
+    methods:
+    - POST
+    name: mon-api_anything-post
+    paths:
+    - ~/anything$
+    plugins: []
+    regex_priority: 200
+    strip_path: false
+    tags:
+    - mon-api
+  - id: 697bdef6-e573-521a-82b6-288af232ef8f
+    methods:
+    - GET
+    name: mon-api_query
+    paths:
+    - ~/anything/query$
+    plugins: []
+    regex_priority: 200
+    strip_path: false
+    tags:
+    - mon-api
+  - id: 5fe0ee87-4e96-5f0a-9858-61ee22a68635
+    methods:
+    - GET
+    name: mon-api_delay
+    paths:
+    - ~/delay/(?<delay_value>[^#?/]+)$
+    plugins: []
+    regex_priority: 100
+    strip_path: false
+    tags:
+    - mon-api
+  - id: 7cc1dde6-7327-52d1-b84c-30c624863ac5
+    methods:
+    - GET
+    name: mon-api_status-code
+    paths:
+    - ~/status/(?<codes>[^#?/]+)$
+    plugins: []
+    regex_priority: 100
+    strip_path: false
+    tags:
+    - mon-api
+  - id: 7efd67cd-e3fe-5260-999f-338c0351025c
+    methods:
+    - GET
+    name: mon-api_get-uuid
+    paths:
+    - ~/uuid$
+    plugins: []
+    regex_priority: 200
+    strip_path: false
+    tags:
+    - mon-api
+  tags:
+  - mon-api
+upstreams: []
