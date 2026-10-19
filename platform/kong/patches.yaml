@@ -3,12 +3,13 @@ _format_version: "1.0"
 # Any final patches the Platform team may want to apply should go here
 patches:
 
-  # Ensure all real routes are only serving https
+  # Ensure all real routes are serving http and https
   - selectors:
     - $.services[*].routes[*]
     values:
       protocols:
       - https
+      - http
 
   # Add defaults for plugin configurations that the teams
   # can use easily

@@ -38,8 +38,7 @@ jobs:
 
       - name: Convert my 1st API to Kong Gateway
         run: |
-          deck file openapi2kong -s mon-api/openapi.yaml | \
-            deck file patch --selector="$..routes[*]" --value='protocols:["http","https"]' | \
+          deck file openapi2kong -s mon-api/openapi.yaml | \            
               deck file add-tags --selector "$.services[*]" --selector "$.services[*].routes[*]" mon-api \
                 -o .github/artifacts/kong/mon-api-kong.yaml
 
