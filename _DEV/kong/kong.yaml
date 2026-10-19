@@ -85,6 +85,7 @@ services:
     plugins: []
     protocols:
     - https
+    - http
     regex_priority: 200
     strip_path: false
     tags:
@@ -99,6 +100,7 @@ services:
     plugins: []
     protocols:
     - https
+    - http
     regex_priority: 200
     strip_path: false
     tags:
@@ -113,6 +115,7 @@ services:
     plugins: []
     protocols:
     - https
+    - http
     regex_priority: 200
     strip_path: false
     tags:
@@ -127,6 +130,7 @@ services:
     plugins: []
     protocols:
     - https
+    - http
     regex_priority: 100
     strip_path: false
     tags:
@@ -141,6 +145,7 @@ services:
     plugins: []
     protocols:
     - https
+    - http
     regex_priority: 100
     strip_path: false
     tags:
@@ -155,6 +160,7 @@ services:
     plugins: []
     protocols:
     - https
+    - http
     regex_priority: 200
     strip_path: false
     tags:
