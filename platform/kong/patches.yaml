@@ -9,7 +9,6 @@ patches:
     values:
       protocols:
       - https
-      - http
 
   # Add defaults for plugin configurations that the teams
   # can use easily

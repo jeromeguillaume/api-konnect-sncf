@@ -7,8 +7,8 @@ info:
     url: https://konghq.com
     name: Kong HQ
   title: Mon API
-  description: This is my first API, it is a simple API to test the OpenAPI specification (OAS)
   version: 1.0.0
+  description: This is my first API, it is a simple API to test the OpenAPI specification (-OAS-)
 paths:
   "/uuid":
     get:
