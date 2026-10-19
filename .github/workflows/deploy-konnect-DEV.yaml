@@ -1,0 +1,45 @@
+name: Deploy API in Konnect  environment
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  deploy-konnect:
+    environment: SNCF_DEV
+    
+    if: github.event.pull_request.merged == true
+    #runs-on: ubuntu-latest
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup deck for Kong Gateway
+        if: runner.environment != 'self-hosted'
+        uses: kong/setup-deck@v1
+        with:
+          deck-version: '1.59.1'
+          wrapper: false
+
+      - name: Kong Gateway sync
+        run: |
+          deck gateway sync --select-tag platform-repo-managed \
+              _DEV/kong/kong.yaml \
+              --konnect-control-plane-name ${{ vars.KONNECT_CONTROL_PLANE_NAME }} \
+              --konnect-token ${{ secrets.KONNECT_PAT }} \
+              --konnect-addr ${{ vars.KONNECT_ADDR }}
+
+      - name: Setup kongctl for Konnect Catalog and DevPortal
+        if: runner.environment != 'self-hosted'
+        uses: kong/setup-kongctl@v1
+        with:
+          kongctl-version: 0.9.0
+
+      - name: Catalog and DevPortal sync
+        run: |
+          kongctl apply --auto-approve \
+                  -f _DEV/catalog_devportal/catalog_devportal.yaml \
+                  --pat ${{ secrets.KONNECT_PAT }} \
+                  --base-url ${{ vars.KONNECT_ADDR }}

@@ -1,0 +1,13 @@
+.DS_Store
+.vscode/
+go-apiops*/
+deck-*/
+kong-quickstart.*
+kong.env
+*.pid
+tls*/
+*.env
+*.log
+kongctl-*
+/demo.yaml
+/temp.yaml

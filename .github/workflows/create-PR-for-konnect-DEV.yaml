@@ -1,0 +1,106 @@
+name: Create Pull Request for konnect SNCF DEV
+
+#on:
+#  workflow_dispatch:
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '_DEV/**'
+      - '_TEST/**'
+      - '_PROD/**'
+      - .github/artifacts/**
+      - .github/workflows/deploy-konnect-DEV.yaml
+      - .github/workflows/promote-API-environment.yaml
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-pr:
+    environment: SNCF_DEV
+    #runs-on: ubuntu-latest
+    runs-on: self-hosted
+    name: Create Pull Request for konnect
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup deck for Kong Gateway
+        if: runner.environment != 'self-hosted'
+        uses: kong/setup-deck@v1
+        with:
+          deck-version: '1.59.1'
+          wrapper: false
+
+      - name: Convert my 1st API to Kong Gateway
+        run: |
+          deck file openapi2kong -s mon-api/openapi.yaml | \
+            deck file add-tags -o .github/artifacts/kong/mon-api-kong.yaml \
+              --selector "$.services[*]" --selector "$.services[*].routes[*]" mon-api          
+
+      - name: Combine Kong Gateway Configurations
+        run: |
+          deck file merge \
+            .github/artifacts/kong/*-kong.yaml -o .github/artifacts/kong/kong-combined.yaml
+
+      - name: Platform Team Kong Gateway Additions
+        run: |
+          deck file merge \
+            .github/artifacts/kong/kong-combined.yaml \
+            platform/kong/consumers/* |
+          deck file patch \
+            platform/kong/patches.yaml |
+          deck file add-plugins \
+            platform/kong/addplugins.yaml |          
+          deck file add-tags \
+            -o _DEV/kong/kong.yaml \
+            "platform-repo-managed"
+
+      - name: Kong Gateway diff configuration
+        id: deck-diff
+        run: |
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "DECK_DIFF<<$EOF" >> $GITHUB_ENV
+          deck gateway diff \
+                --select-tag platform-repo-managed \
+                --konnect-control-plane-name ${{ vars.KONNECT_CONTROL_PLANE_NAME }} \
+                --konnect-token ${{ secrets.KONNECT_PAT }} \
+                --konnect-addr ${{ vars.KONNECT_ADDR }} \
+                _DEV/kong/kong.yaml >> $GITHUB_ENV
+          echo "$EOF" >> $GITHUB_ENV
+      
+      - name: Setup kongctl for Konnect Catalog and DevPortal
+        uses: kong/setup-kongctl@v1
+        with:
+          kongctl-version: 0.9.0
+      
+      - name: Catalog and DevPortal
+        id: catalog-devportal-diff
+        run: |
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          cp -r mon-api/catalog_devportal _DEV/
+          cp mon-api/openapi.yaml _DEV/catalog_devportal/.
+          echo "KONG_GATEWAY_ADDR=${{ vars.KONG_GATEWAY_ADDR }}"
+          yq -i '.servers[0].url = "${{ vars.KONG_GATEWAY_ADDR }}"' _DEV/catalog_devportal/openapi.yaml
+          echo "CATALOG_DEVPORTAL_DIFF<<$EOF" >> $GITHUB_ENV
+          kongctl diff \
+                  --pat ${{ secrets.KONNECT_PAT }} \
+                  --base-url ${{ vars.KONNECT_ADDR }} \
+                  -f _DEV/catalog_devportal/catalog_devportal.yaml >> $GITHUB_ENV 
+          echo "$EOF" >> $GITHUB_ENV
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GIT_TOKEN }}
+          commit-message: "chore: update konnect config"
+          branch: DEV/kong
+          title: "❗Update Konnect❗: Staged changes for '${{ vars.KONNECT_CONTROL_PLANE_NAME }}' control plane and Catalog & DevPortal"
+          body: "Merging this PR will result in the following changes deployed to '${{ vars.KONNECT_CONTROL_PLANE_NAME }}' Kong Gateway \n\n ```\n${{env.DECK_DIFF}}\n```\n\n Merging this PR will result in the following changes deployed to the Catalog & DevPortal \n\n ```\n${{env.CATALOG_DEVPORTAL_DIFF}}\n```"
+          labels: |
+            automated
+            kong
