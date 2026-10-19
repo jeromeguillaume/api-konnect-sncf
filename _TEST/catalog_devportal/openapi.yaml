@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: https://localhost:11445
+  - url: https://localhost:11444
 info:
   contact:
     email: contact@konghq.com
