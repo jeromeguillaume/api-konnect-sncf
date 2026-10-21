@@ -81,7 +81,7 @@ services:
     - GET
     name: mon-api_anything-get
     paths:
-    - ~/anything$
+    - ~/monapi/v1/anything$
     plugins: []
     protocols:
     - https
@@ -95,7 +95,7 @@ services:
     - POST
     name: mon-api_anything-post
     paths:
-    - ~/anything$
+    - ~/monapi/v1/anything$
     plugins: []
     protocols:
     - https
@@ -109,7 +109,7 @@ services:
     - GET
     name: mon-api_query
     paths:
-    - ~/anything/query$
+    - ~/monapi/v1/anything/query$
     plugins: []
     protocols:
     - https
@@ -123,7 +123,7 @@ services:
     - GET
     name: mon-api_delay
     paths:
-    - ~/delay/(?<delay_value>[^#?/]+)$
+    - ~/monapi/v1/delay/(?<delay_value>[^#?/]+)$
     plugins: []
     protocols:
     - https
@@ -137,7 +137,7 @@ services:
     - GET
     name: mon-api_status-code
     paths:
-    - ~/status/(?<codes>[^#?/]+)$
+    - ~/monapi/v1/status/(?<codes>[^#?/]+)$
     plugins: []
     protocols:
     - https
@@ -151,7 +151,7 @@ services:
     - GET
     name: mon-api_get-uuid
     paths:
-    - ~/uuid$
+    - ~/monapi/v1/uuid$
     plugins: []
     protocols:
     - https
