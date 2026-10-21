@@ -3,11 +3,6 @@ add-plugins:
       - $..services[*]
     overwrite: yes
     plugins:
-      - name: response-transformer
-        config:
-          add:
-            headers:
-              - "X-SNCF-Security:passed"
       - name: key-auth
         config:
           key_names:

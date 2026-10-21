@@ -42,10 +42,13 @@ jobs:
             deck file add-tags -o .github/artifacts/kong/mon-api-kong.yaml \
               --selector "$.services[*]" --selector "$.services[*].routes[*]" mon-api
 
-      - name: Combine Kong Gateway Configurations
+      - name: Combine Kong Gateway Configurations and Policies
         run: |
           deck file merge \
-            .github/artifacts/kong/*-kong.yaml -o .github/artifacts/kong/kong-combined.yaml
+            .github/artifacts/kong/*-kong.yaml |
+          deck file add-plugins \
+            mon-api/policies/addplugins.yaml \
+            -o .github/artifacts/kong/kong-combined.yaml
 
       - name: Platform Team Kong Gateway Additions
         run: |
