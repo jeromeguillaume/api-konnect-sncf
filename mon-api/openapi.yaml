@@ -10,7 +10,7 @@ info:
   version: 1.0.0
   description: This is my first API, it is a simple API to test the OpenAPI specification (-OAS-)
 paths:
-  "/uuid":
+  "/monapi/v1/uuid":
     get:
       description: Generate and get an UUID
       operationId: get_uuid
@@ -20,7 +20,7 @@ paths:
       summary: Return a UUID4.
       tags:
       - Generate UUID
-  "/anything":
+  "/monapi/v1/anything":
     get:
       description: returns all your request
       operationId: anything-GET
@@ -54,7 +54,7 @@ paths:
       summary: Return anything data.
       tags:
       - Anything
-  "/anything/query":
+  "/monapi/v1/anything/query":
     get:
       description: returns all your query parameters
       operationId: query
@@ -74,7 +74,7 @@ paths:
       tags:
       - Anything
       - Query
-  "/delay/{delay_value}":
+  "/monapi/v1/delay/{delay_value}":
     get:
       description: delay a responses by a defined number of secondes
       operationId: delay
@@ -94,7 +94,7 @@ paths:
       tags:
       - Delayed Response
       - Path
-  "/status/{codes}":
+  "/monapi/v1/status/{codes}":
     get:
       description: returns a http status code
       operationId: status_code
