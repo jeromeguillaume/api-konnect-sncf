@@ -1,15 +1,15 @@
-# Template to build and deploy an API in Konnect
-The template of the OAS (OpenAPI Specification) is located in `mon-api/openapi.yaml`
+# Modèle pour construire et déployer une API dans Konnect
+Le modèle de l'OAS (OpenAPI Specification) se trouve dans `mon-api/openapi.yaml`. Les policies de la Kong Gateway sont dans `mon-api/policies`
 
-When the Developer commits this repo, a pipeline is executed to publish the API in Konnect - Development environment for Kong Gateway, Catalog and Developer Portal
+Lorsque le développeur effectue un commit sur ce dépôt, un pipeline est exécuté pour publier l'API dans Konnect - environnement de Développement pour Kong Gateway, le Catalog et le Developer Portal
 
-## Platform Team
-The Platform Team controls and enforces the governance & security by adding policies in the CI pipeline. See policies enforcement in `platform/`. The policies have the `platform-repo-managed` Kong Gateway flag
+## Équipe Plateforme
+L'équipe Plateforme contrôle et applique la gouvernance et la sécurité en ajoutant des politiques dans le pipeline CI. Voir l'application des politiques dans `platform/`. Les politiques portent le flag Kong Gateway `platform-repo-managed`
 
-## API Lifecycle
-During the commit, a PR is created to deploy the API in the Development environment. The API Owner merges the PR to deploy the API in a Development environment
+## Cycle de vie de l'API
+Lors du commit, une PR est créée pour déployer l'API dans l'environnement de Développement. Le propriétaire de l'API fusionne la PR pour déployer l'API dans un environnement de Développement
 
-`Promote API to Konnect Environments` is the  Git worflow that promotes the API from Development to Test and Test to Production
+`Promote API to Konnect Environments` est le workflow Git qui promeut l'API du Développement vers le Test, puis du Test vers la Production
 
-## Country
-The PR is executed for `environment: FRANCE_DEV`. Adapt it for other countries
+## Pays
+La PR est exécutée pour `environment: FRANCE_DEV`. À adapter pour les autres pays
