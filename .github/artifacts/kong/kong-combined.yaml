@@ -4,7 +4,12 @@ services:
   id: 64968ae0-88be-5ac8-a787-cad7fd5cbca8
   name: mon-api
   path: /
-  plugins: []
+  plugins:
+  - config:
+      add:
+        headers:
+        - X-SNCF-Security:passed
+    name: response-transformer
   port: 443
   protocol: https
   routes:
