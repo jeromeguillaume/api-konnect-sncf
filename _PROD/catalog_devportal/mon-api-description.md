@@ -1,6 +1,6 @@
 # Mon API
 
-Documentation of Mon API (v1)
+Documentation de Mon API (v1)
 
 | Status Code | Description | Category |
 | ----------- | ----------- | -------- |
