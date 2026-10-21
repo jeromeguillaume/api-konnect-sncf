@@ -44,6 +44,16 @@ services:
   path: /
   plugins:
   - config:
+      access:
+      - "local ns='/monapi/v1' -- this strips the '/monapi/v1' namespace from the
+        path\nlocal nst=ns:sub(-1,-1)=='/' and ns or (ns..'/')\nlocal function sn(u)\n\tlocal
+        s,e=u:find(nst,1,true)\n\tif s then\n\t\treturn u:sub(1,s)..u:sub(e+1,-1)\n\tend\n\tif
+        u:sub(-#ns,-1)==ns then\n\t\tu=u:sub(1,-#ns-1)\n\t\tif u=='' then u='/' end\n\tend\n\treturn
+        u\nend\nngx.var.upstream_uri=sn(ngx.var.upstream_uri)"
+    name: pre-function
+    tags:
+    - platform-repo-managed
+  - config:
       add:
         headers:
         - X-SNCF-Security:passed
