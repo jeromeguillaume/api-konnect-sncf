@@ -90,6 +90,7 @@ jobs:
           cp mon-api/openapi.yaml _DEV/catalog_devportal/.
           echo "KONG_GATEWAY_ADDR=${{ vars.KONG_GATEWAY_ADDR }}"
           yq -i '.servers[0].url = "${{ vars.KONG_GATEWAY_ADDR }}"' _DEV/catalog_devportal/openapi.yaml
+          yq -i '.paths |= with_entries(.key = "/monapi/v1" + .key)' _DEV/catalog_devportal/openapi.yaml
           echo "CATALOG_DEVPORTAL_DIFF<<$EOF" >> $GITHUB_ENV
           kongctl diff \
                   --pat ${{ secrets.KONNECT_PAT }} \
