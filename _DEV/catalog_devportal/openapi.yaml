@@ -3,9 +3,9 @@ servers:
   - url: https://localhost:11443
 info:
   contact:
-    email: contact@konghq.com
-    url: https://konghq.com
-    name: Kong HQ
+    email: contact@sncf.fr
+    url: https://www.sncf.fr
+    name: SNCF
   title: Mon API
   version: 1.0.0
   description: This is my first API, it is a simple API to test the OpenAPI specification (OAS)
