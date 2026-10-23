@@ -11,5 +11,5 @@ Lors du commit, une PR est créée pour déployer l'API dans l'environnement de 
 
 `Promote API to Konnect Environments` est le workflow Git qui promeut l'API du Développement vers le Test, puis du Test vers la Production
 
-## Pays
-La PR est exécutée pour `environment: FRANCE_DEV`. À adapter pour les autres pays
+## Entité / Environnement
+La PR est exécutée pour `environment: SNCF_DEV`. À adapter pour les autres entités
